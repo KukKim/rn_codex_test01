@@ -1,15 +1,40 @@
-import { Text, View } from "react-native";
+import { useEffect } from "react";
+import { Image, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 
-export default function Index() {
+const SPLASH_DELAY_MS = 1500;
+
+export default function SplashRoute() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      router.replace("/(tabs)/home");
+    }, SPLASH_DELAY_MS);
+
+    return () => clearTimeout(timeout);
+  }, [router]);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View style={styles.container}>
+      <Image
+        source={require("../assets/dkLogo.png")}
+        style={styles.logo}
+        resizeMode="contain"
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+  },
+  logo: {
+    width: 180,
+    height: 180,
+  },
+});
